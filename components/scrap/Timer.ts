@@ -67,7 +67,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    // padding: 10,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     fontWeight: "bold",
-    padding: 20,
+    // padding: 20,
   },
   sectionStyle: {
     flex: 1,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
 const options = {
   container: {
     backgroundColor: "#FF0000",
-    padding: 5,
+    // padding: 5,
     borderRadius: 5,
     width: 200,
     alignItems: "center",
