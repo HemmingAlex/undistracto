@@ -4,6 +4,7 @@ import { Slider, Text, Icon } from "react-native-elements";
 
 type SlidersComponentProps = {
   timer: (e: number) => void;
+  //prop to use the slider as duration of timer
 };
 
 export const HSliders: React.FunctionComponent<SlidersComponentProps> = ({
@@ -11,22 +12,28 @@ export const HSliders: React.FunctionComponent<SlidersComponentProps> = ({
 }) => {
   const [value, setValue] = useState(25);
 
-  const interpolate = (start: number, end: number) => {
-    let k = (value - 0) / 10; // 0 =>min  && 10 => MAX
-    return Math.ceil((1 - k) * start + k * end) % 256;
+  const interpolate = (start: number, end: number, whole?: boolean) => {
+    // 0 =>min  && 10 => MAX
+    let k = (value - 0) / 50;
+    // 50 is the length of the sldier 0 is the min it can be set
+    let x: number;
+    if (!whole) {
+      x = (1 - k) * start + k * end;
+    } else {
+      x = Math.ceil((1 - k) * start + k * end);
+    }
+    return x;
   };
 
   const color = () => {
-    let r = interpolate(0, 0);
-    let g = interpolate(206, 206);
-    let b = interpolate(209, 2090);
+    let r = interpolate(0, 256);
+    let g = interpolate(206, 212);
+    let b = interpolate(209, 0);
     return `rgb(${r},${g},${b})`;
   };
 
   return (
     <>
-      <Text style={styles.subHeader}>Horizontal Slider</Text>
-
       <View style={[styles.contentView]}>
         <Slider
           value={value}
@@ -35,7 +42,7 @@ export const HSliders: React.FunctionComponent<SlidersComponentProps> = ({
             timer(e);
           }}
           maximumValue={60}
-          minimumValue={12.5}
+          minimumValue={0}
           step={12.5}
           allowTouchTrack
           trackStyle={{
@@ -50,13 +57,19 @@ export const HSliders: React.FunctionComponent<SlidersComponentProps> = ({
                 type="fontisto"
                 size={20}
                 reverse
-                containerStyle={{ bottom: 20, right: 20, padding:25 }}
+                containerStyle={{
+                  bottom: 20,
+                  right: 20,
+                  shadowColor: color(),
+                  shadowOffset: { width: interpolate(0, 4, false), height: interpolate(0, 4, false) },
+                  shadowOpacity: interpolate(0, 1, false),
+                  shadowRadius: interpolate(0, 12, false),
+                }}
                 color={color()}
               />
             ),
           }}
         />
-        <Text style={{ paddingTop: 20 }}>Value: {value}</Text>
       </View>
     </>
   );
